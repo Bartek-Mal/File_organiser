@@ -1,7 +1,7 @@
 import os
 import shutil
 
-directory = "Path to a directory you want to organise"
+directory = "C:\\Users\\Bartek\\Downloads"
 
 image_directory = os.path.join(directory, "IMAGE")
 pdf_directory = os.path.join(directory, "PDF")
