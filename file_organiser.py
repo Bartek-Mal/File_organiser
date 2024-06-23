@@ -1,11 +1,15 @@
 import os
 import shutil
 from enum import IntEnum
+from colorama import Fore
+from send2trash import send2trash
+
+
 
 class Dir_management:
     def __init__(self):
         self.directory = None
-        
+
     def Set_Dir(self, directory):
         self.directory = directory
 
@@ -24,22 +28,22 @@ class Dir_management:
     def path(self, directory):
         for filename in os.listdir(directory):
             filepath = os.path.join(directory, filename)
-            
+
             if os.path.isfile(filepath):
                 _, file_extension = os.path.splitext(filename)
                 self.segregate(file_extension, filepath)
-                
+
             elif os.path.isdir(filepath):
                 inner_dir = filepath
                 for inner_filename in os.listdir(inner_dir):
                     inner_filepath = os.path.join(inner_dir, inner_filename)
-                        
+
                     if os.path.isfile(inner_filepath):
                         _, inner_file_extension = os.path.splitext(inner_filename)
                         self.segregate(inner_file_extension, inner_dir)
-                    
+
     def check_if_folder_exists(self):
-        directories = [self.image_directory, self.pdf_directory, self.text_directory, self.spreadsheet_directory, 
+        directories = [self.image_directory, self.pdf_directory, self.text_directory, self.spreadsheet_directory,
                     self.video_directory, self.audio_directory, self.presentation_directory, self.cpp_directory, self.zip_directory]
         for dir in directories:
             if not os.path.exists(dir):
@@ -69,10 +73,25 @@ dir_manager = Dir_management()
 running = True
 choices = IntEnum('Choices', {'Organise':1 , 'Display':2 , 'Delete':3, 'Move':4, 'Show':5, 'Quit':6})
 
+
+print(f"""{Fore.BLUE}
+______ _     ___  ___
+|  _  (_)    |  \/  |
+| | | |_ _ __| .  . | __ _ _ __   __ _  __ _  ___ _ __
+| | | | | '__| |\/| |/ _` | '_ \ / _` |/ _` |/ _ \ '__|
+| |/ /| | |  | |  | | (_| | | | | (_| | (_| |  __/ |
+|___/ |_|_|  \_|  |_/\__,_|_| |_|\__,_|\__, |\___|_|
+                                        __/ |
+                                       |___/
+     {Fore.GREEN}This is an app i made during a weekend to
+       automate my directorymanagement tasks.
+{Fore.RESET}""")
+
+
 while running:
-    print("1.Organise files\n2.Display files\n3.Delete file\n4.Move file\n5.Show presaved actions\n6.QUIT")
+    print(f"{Fore.BLUE}1.Organise files\n2.Display files\n3.Delete file\n4.Move file\n5.Show presaved actions\n6.QUIT{Fore.RESET}")
     choice = int(input("What would you like to do with your directory?: "))
-    
+
     if choice == choices.Organise:
         path = str(input("Path: "))
         dir_manager.Set_Dir(path)
@@ -81,15 +100,15 @@ while running:
         path = str(input("Path: "))
         os.chdir(path)
         for files in os.listdir(os.getcwd()):
-            print('--------------\n',files)
+            print(f'{Fore.BLUE}--------------\n{Fore.RESET}',files)
     elif choice == choices.Delete:
-        print("""
+        print(Fore.RED + """
                             !!WARNING!!
         Be aware that this action deletes the file permanently
-        """)
+        """ + Fore.RESET)
         path = str(input("Path: "))
         os.chdir(path)
         file_to_delete = str(input("Which file would you like to delete?: "))
-        os.remove(file_to_delete)
+        send2trash(file_to_delete)
     elif choice == choices.Quit:
         running = False
