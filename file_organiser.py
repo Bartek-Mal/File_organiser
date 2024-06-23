@@ -67,14 +67,29 @@ class Dir_management:
 dir_manager = Dir_management()
 
 running = True
-choices = IntEnum('Choices', {'Organise':1 , 'Quit':2})
+choices = IntEnum('Choices', {'Organise':1 , 'Display':2 , 'Delete':3, 'Move':4, 'Show':5, 'Quit':6})
 
 while running:
+    print("1.Organise files\n2.Display files\n3.Delete file\n4.Move file\n5.Show presaved actions\n6.QUIT")
     choice = int(input("What would you like to do with your directory?: "))
     
     if choice == choices.Organise:
         path = str(input("Path: "))
         dir_manager.Set_Dir(path)
         dir_manager.path(dir_manager.directory)
+    elif choice == choices.Display:
+        path = str(input("Path: "))
+        os.chdir(path)
+        for files in os.listdir(os.getcwd()):
+            print('--------------\n',files)
+    elif choice == choices.Delete:
+        print("""
+                            !!WARNING!!
+        Be aware that this action deletes the file permanently
+        """)
+        path = str(input("Path: "))
+        os.chdir(path)
+        file_to_delete = str(input("Which file would you like to delete?: "))
+        os.remove(file_to_delete)
     elif choice == choices.Quit:
         running = False
