@@ -1,7 +1,7 @@
 import os
 import shutil
 
-directory = "C:\\Users\\Bartek\\Downloads"
+directory = "C:\\Users\\Bartek\\Downloadszz"
 
 image_directory = os.path.join(directory, "IMAGE")
 pdf_directory = os.path.join(directory, "PDF")
@@ -11,6 +11,8 @@ video_directory = os.path.join(directory, "VIDEOS")
 audio_directory = os.path.join(directory, "AUDIO")
 presentation_directory = os.path.join(directory, "PRESENTATIONS")
 cpp_directory = os.path.join(directory, "C++")
+zip_directory = os.path.join(directory, "ZIP")
+
 
 def path(directory):
     for filename in os.listdir(directory):
@@ -19,10 +21,21 @@ def path(directory):
         if os.path.isfile(filepath):
             _, file_extension = os.path.splitext(filename)
             segregate(file_extension, filepath)
-
+            
+        elif os.path.isdir(filepath):
+                inner_dir = filepath
+                for inner_filename in os.listdir(inner_dir):
+                    inner_filepath = os.path.join(inner_dir,inner_filename)
+                    
+                    if os.path.isfile(inner_filepath):
+                        _, inner_file_extension = os.path.splitext(inner_filename)
+                        segregate(inner_file_extension, inner_dir)
+        
+                
+            
 def check_if_folder_exists():
     directories = [image_directory, pdf_directory, text_directory, spreadsheet_directory, 
-                   video_directory, audio_directory, presentation_directory, cpp_directory]
+                   video_directory, audio_directory, presentation_directory, cpp_directory, zip_directory]
     for dir in directories:
         if not os.path.exists(dir):
             os.mkdir(dir)
@@ -44,6 +57,8 @@ def segregate(file_extension, filepath):
         shutil.move(filepath, presentation_directory)
     elif file_extension.lower() in ['.cpp', '.h']:
         shutil.move(filepath, cpp_directory)
+
+    
 
 check_if_folder_exists()
 path(directory)
