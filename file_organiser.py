@@ -1,8 +1,12 @@
 import os
 import shutil
+from enum import IntEnum
 
 class Dir_management:
-    def __init__(self, directory="C:\\Users\\Bartek\\Desktop\\test"):
+    def __init__(self):
+        self.directory = None
+        
+    def Set_Dir(self, directory):
         self.directory = directory
 
         self.image_directory = os.path.join(directory, "IMAGE")
@@ -61,4 +65,16 @@ class Dir_management:
 
 
 dir_manager = Dir_management()
-dir_manager.path(dir_manager.directory)
+
+running = True
+choices = IntEnum('Choices', {'Organise':1 , 'Quit':2})
+
+while running:
+    choice = int(input("What would you like to do with your directory?: "))
+    
+    if choice == choices.Organise:
+        path = str(input("Path: "))
+        dir_manager.Set_Dir(path)
+        dir_manager.path(dir_manager.directory)
+    elif choice == choices.Quit:
+        running = False
