@@ -1,64 +1,64 @@
 import os
 import shutil
 
-directory = "C:\\Users\\Bartek\\Downloadszz"
+class Dir_management:
+    def __init__(self, directory="C:\\Users\\Bartek\\Desktop\\test"):
+        self.directory = directory
 
-image_directory = os.path.join(directory, "IMAGE")
-pdf_directory = os.path.join(directory, "PDF")
-text_directory = os.path.join(directory, "TEXT")
-spreadsheet_directory = os.path.join(directory, "SPREADSHEETS")
-video_directory = os.path.join(directory, "VIDEOS")
-audio_directory = os.path.join(directory, "AUDIO")
-presentation_directory = os.path.join(directory, "PRESENTATIONS")
-cpp_directory = os.path.join(directory, "C++")
-zip_directory = os.path.join(directory, "ZIP")
+        self.image_directory = os.path.join(directory, "IMAGE")
+        self.pdf_directory = os.path.join(directory, "PDF")
+        self.text_directory = os.path.join(directory, "TEXT")
+        self.spreadsheet_directory = os.path.join(directory, "SPREADSHEETS")
+        self.video_directory = os.path.join(directory, "VIDEOS")
+        self.audio_directory = os.path.join(directory, "AUDIO")
+        self.presentation_directory = os.path.join(directory, "PRESENTATIONS")
+        self.cpp_directory = os.path.join(directory, "C++")
+        self.zip_directory = os.path.join(directory, "ZIP")
 
+        self.check_if_folder_exists()
 
-def path(directory):
-    for filename in os.listdir(directory):
-        filepath = os.path.join(directory, filename)
-        
-        if os.path.isfile(filepath):
-            _, file_extension = os.path.splitext(filename)
-            segregate(file_extension, filepath)
+    def path(self, directory):
+        for filename in os.listdir(directory):
+            filepath = os.path.join(directory, filename)
             
-        elif os.path.isdir(filepath):
+            if os.path.isfile(filepath):
+                _, file_extension = os.path.splitext(filename)
+                self.segregate(file_extension, filepath)
+                
+            elif os.path.isdir(filepath):
                 inner_dir = filepath
                 for inner_filename in os.listdir(inner_dir):
-                    inner_filepath = os.path.join(inner_dir,inner_filename)
-                    
+                    inner_filepath = os.path.join(inner_dir, inner_filename)
+                        
                     if os.path.isfile(inner_filepath):
                         _, inner_file_extension = os.path.splitext(inner_filename)
-                        segregate(inner_file_extension, inner_dir)
-        
-                
-            
-def check_if_folder_exists():
-    directories = [image_directory, pdf_directory, text_directory, spreadsheet_directory, 
-                   video_directory, audio_directory, presentation_directory, cpp_directory, zip_directory]
-    for dir in directories:
-        if not os.path.exists(dir):
-            os.mkdir(dir)
+                        self.segregate(inner_file_extension, inner_dir)
+                    
+    def check_if_folder_exists(self):
+        directories = [self.image_directory, self.pdf_directory, self.text_directory, self.spreadsheet_directory, 
+                    self.video_directory, self.audio_directory, self.presentation_directory, self.cpp_directory, self.zip_directory]
+        for dir in directories:
+            if not os.path.exists(dir):
+                os.mkdir(dir)
 
-def segregate(file_extension, filepath):
-    if file_extension.lower() in ['.png','.jpg']:
-        shutil.move(filepath, image_directory)
-    elif file_extension.lower() == '.pdf':
-        shutil.move(filepath, pdf_directory)
-    elif file_extension.lower() in ['.txt', '.doc', '.docx']:
-        shutil.move(filepath, text_directory)
-    elif file_extension.lower() in ['.xls', '.xlsx','.csv']:
-        shutil.move(filepath, spreadsheet_directory)
-    elif file_extension.lower() in ['.mp4', '.avi', '.mov']:
-        shutil.move(filepath, video_directory)
-    elif file_extension.lower() in ['.mp3', '.wav']:
-        shutil.move(filepath, audio_directory)
-    elif file_extension.lower() in ['.ppt', '.pptx']:
-        shutil.move(filepath, presentation_directory)
-    elif file_extension.lower() in ['.cpp', '.h']:
-        shutil.move(filepath, cpp_directory)
+    def segregate(self, file_extension, filepath):
+        if file_extension.lower() in ['.png', '.jpg']:
+            shutil.move(filepath, self.image_directory)
+        elif file_extension.lower() == '.pdf':
+            shutil.move(filepath, self.pdf_directory)
+        elif file_extension.lower() in ['.txt', '.doc', '.docx']:
+            shutil.move(filepath, self.text_directory)
+        elif file_extension.lower() in ['.xls', '.xlsx', '.csv']:
+            shutil.move(filepath, self.spreadsheet_directory)
+        elif file_extension.lower() in ['.mp4', '.avi', '.mov']:
+            shutil.move(filepath, self.video_directory)
+        elif file_extension.lower() in ['.mp3', '.wav']:
+            shutil.move(filepath, self.audio_directory)
+        elif file_extension.lower() in ['.ppt', '.pptx']:
+            shutil.move(filepath, self.presentation_directory)
+        elif file_extension.lower() in ['.cpp', '.h']:
+            shutil.move(filepath, self.cpp_directory)
 
-    
 
-check_if_folder_exists()
-path(directory)
+dir_manager = Dir_management()
+dir_manager.path(dir_manager.directory)
