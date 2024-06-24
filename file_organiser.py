@@ -93,11 +93,22 @@ while running:
     choice = int(input("What would you like to do with your directory?: "))
 
     if choice == choices.Organise:
-        path = str(input("Path: "))
+        path = str(input("Directory path: "))
         dir_manager.Set_Dir(path)
         dir_manager.path(dir_manager.directory)
+        print(f'''{Fore.CYAN} 
+        ______ _ _           _____                       _              _ 
+        |  ___(_) |         |  _  |                     (_)            | |
+        | |_   _| | ___  ___| | | |_ __ __ _  __ _ _ __  _ ___  ___  __| |
+        |  _| | | |/ _ \/ __| | | | '__/ _` |/ _` | '_ \| / __|/ _ \/ _` |
+        | |   | | |  __/\__ \ \_/ / | | (_| | (_| | | | | \__ \  __/ (_| |
+        \_|   |_|_|\___||___/\___/|_|  \__, |\__,_|_| |_|_|___/\___|\__,_|
+                                        __/ |                             
+                                        |___/                              
+        {Fore.RESET}''')
+
     elif choice == choices.Display:
-        path = str(input("Path: "))
+        path = str(input("Directory path: "))
         os.chdir(path)
         for files in os.listdir(os.getcwd()):
             print(f'{Fore.BLUE}--------------\n{Fore.RESET}',files)
@@ -110,5 +121,49 @@ while running:
         os.chdir(path)
         file_to_delete = str(input("Which file would you like to delete?: "))
         send2trash(file_to_delete)
+        print(f'''{Fore.CYAN}
+        ______ _ _     ______     _      _           _ 
+        |  ___(_) |    |  _  \   | |    | |         | |
+        | |_   _| | ___| | | |___| | ___| |_ ___  __| |
+        |  _| | | |/ _ \ | | / _ \ |/ _ \ __/ _ \/ _` |
+        | |   | | |  __/ |/ /  __/ |  __/ ||  __/ (_| |
+        \_|   |_|_|\___|___/ \___|_|\___|\__\___|\__,_|
+        {Fore.RESET}''')
+
+    elif choice == choices.Move:
+        print("First input a path you want to move files from, then choose a file,\nat last input a path you want to move it to")
+        from_path = str(input("From path: "))
+        file = str(input("Enter file name: "))
+        file_path = os.path.join(from_path,file)
+        to_path = str(input("To path: "))
+        shutil.move(file_path,to_path)
+        print(f''' {Fore.CYAN}
+        ______ _ _     ___  ___                   _ 
+        |  ___(_) |    |  \/  |                  | |
+        | |_   _| | ___| .  . | _____   _____  __| |
+        |  _| | | |/ _ \ |\/| |/ _ \ \ / / _ \/ _` |
+        | |   | | |  __/ |  | | (_) \ V /  __/ (_| |
+        \_|   |_|_|\___\_|  |_/\___/ \_/ \___|\__,_|
+        {Fore.RESET}''')
+    elif choice == choices.Show:
+        action = int(input(("Choose 1 to make a presave or 2 to view presaved actions")))
+
+        if action == 1:
+            save = str(input("Make a presave (action path): "))
+            with open("pre_save.txt","a",encoding="UTF-8") as pre_save:
+                pre_save.write(save + "\n")
+            print(f"Action {save} has been saved")
+        elif action == 2:
+            if os.path.exists("pre_save.txt"):
+                with open("pre_save.txt","r", encoding="UTF-8") as pre_save:
+                    content = pre_save.readlines()
+                    if content:
+                        print("Presaved actions:")
+                        for line in content:
+                            print(line.strip())
+                    else:
+                        print("No presaved actions found")
+            else:
+                print("No presaved actions found")
     elif choice == choices.Quit:
         running = False
