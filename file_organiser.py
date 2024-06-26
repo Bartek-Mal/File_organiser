@@ -146,12 +146,26 @@ while running:
         \_|   |_|_|\___\_|  |_/\___/ \_/ \___|\__,_|
         {Fore.RESET}''')
     elif choice == choices.Show:
-        action = int(input(("Choose 1 to make a presave or 2 to view presaved actions")))
+        print(f"""{Fore.CYAN}
+        ______         _____                      
+        | ___ \       /  ___|                     
+        | |_/ / __ ___\ `--.  __ ___   _____  ___ 
+        |  __/ '__/ _ \`--. \/ _` \ \ / / _ \/ __|
+        | |  | | |  __/\__/ / (_| |\ V /  __/\__ \ 
+        \_|  |_|  \___\____/ \__,_| \_/ \___||___/{Fore.RESET}
+        
+            {Fore.GREEN}Hi, this is your PreSave manager,
+            to use it make sure your presaves
+               looks like the ones below:
+            organise;path_to_organise
+            move;file_path_from;file_path_to{Fore.RESET}
+        """)
 
+        action = int(input(("1.Make a presave\n2.Show presaves\n3.Execute a presave\nChoice: ")))
         if action == 1:
             save = str(input("Make a presave (action path): "))
             with open("pre_save.txt","a",encoding="UTF-8") as pre_save:
-                pre_save.write(save + "\n")
+                pre_save.write(save.replace(" ",";") + "\n")
             print(f"Action {save} has been saved")
         elif action == 2:
             if os.path.exists("pre_save.txt"):
@@ -160,9 +174,22 @@ while running:
                     if content:
                         print("Presaved actions:")
                         for line in content:
-                            print(line.strip())
+                            print(line.strip().replace(" ",";"))
                     else:
                         print("No presaved actions found")
+        elif action == 3:
+            if os.path.exists("pre_save.txt"):
+                with open("pre_save.txt", "r", encoding="UTF-8") as pre_save:
+                    content = pre_save.readlines()
+                    for line in content:
+                        action = line.strip().split(";")
+                        if len(action) == 2 and action[0].lower() == 'organise':
+                            dir_manager.Set_Dir(action[1])
+                            dir_manager.path(dir_manager.directory)
+                            print(f"Organised {action[1]}")
+                        elif len(action) == 3 and action[0].lower() == 'move':
+                            shutil.move(action[1], action[2])
+                            print(f"Moved {action[1]} to {action[2]}")
             else:
                 print("No presaved actions found")
     elif choice == choices.Quit:
