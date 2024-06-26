@@ -145,6 +145,7 @@ while running:
         | |   | | |  __/ |  | | (_) \ V /  __/ (_| |
         \_|   |_|_|\___\_|  |_/\___/ \_/ \___|\__,_|
         {Fore.RESET}''')
+        
     elif choice == choices.Show:
         print(f"""{Fore.CYAN}
         ______         _____                      
@@ -158,7 +159,8 @@ while running:
             to use it make sure your presaves
                looks like the ones below:
             organise;path_to_organise
-            move;file_path_from;file_path_to{Fore.RESET}
+            move;file_path_from;file_path_to
+            delete;file_path_to_delete{Fore.RESET}
         """)
 
         action = int(input(("1.Make a presave\n2.Show presaves\n3.Execute a presave\nChoice: ")))
@@ -190,6 +192,8 @@ while running:
                         elif len(action) == 3 and action[0].lower() == 'move':
                             shutil.move(action[1], action[2])
                             print(f"Moved {action[1]} to {action[2]}")
+                        elif len(action) == 2 and action[0].lower() == 'delete':
+                            send2trash(action[1])
             else:
                 print("No presaved actions found")
     elif choice == choices.Quit:
