@@ -1,2 +1,1 @@
-organise;C:\Users\Bartek\Desktop\test
-organise;C:\Users\Bartek\Desktop\test
+organise;C:\Users\Bartek\Downloads
