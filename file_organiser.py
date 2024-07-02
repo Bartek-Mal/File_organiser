@@ -76,13 +76,10 @@ class Dir_management:
         filename = os.path.basename(filepath)
         dest_filepath = os.path.join(dest_directory, filename)
         if os.path.exists(dest_filepath):
-            base, ext = os.path.splitext(filename)
-            i = 1
-            while os.path.exists(dest_filepath):
-                new_filename = f"{base}({i}){ext}"
-                dest_filepath = os.path.join(dest_directory, new_filename)
-                i += 1
-        shutil.move(filepath, dest_filepath)
+            print(f"File {filename} already exists in {dest_directory}, skipping.")
+        else:
+            shutil.move(filepath, dest_filepath)
+
 
 
 dir_manager = Dir_management()
